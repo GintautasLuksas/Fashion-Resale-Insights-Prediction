@@ -1,0 +1,2 @@
+1.Created venv added interpreter / gitignore / license / readme.md
+2.Created structure and added raw data.
