@@ -1,2 +1,4 @@
 1.Created venv added interpreter / gitignore / license / readme.md
 2.Created structure and added raw data.
+3.Creating file connect.py to establish connection with DB.
+4.
