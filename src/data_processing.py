@@ -28,6 +28,7 @@ def clean_data(df):
     - Drops duplicates.
     - Removes rows with missing essential data (brand, price).
     - Casts appropriate dtypes.
+    - Drops all rows with any remaining missing values.
 
     Parameters:
         df (pd.DataFrame): Raw dataset.
@@ -42,6 +43,8 @@ def clean_data(df):
     bool_columns = ['sold', 'reserved', 'available', 'in_stock', 'should_be_gone']
     for col in bool_columns:
         df[col] = df[col].astype(bool)
+
+    df = df.dropna()
 
     return df
 
@@ -99,3 +102,10 @@ def select_final_columns(df):
         'gender_encoded'
     ]
     return df[columns_to_keep]
+
+def encode_categoricals(df):
+    """
+    Placeholder for future encoding steps.
+    Currently returns df unchanged.
+    """
+    return df
