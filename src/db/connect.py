@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 import logging
 from typing import Optional, Type, Any
 
-dotenv_path = os.path.join(os.path.dirname(__file__), '..', '.env')
+dotenv_path = os.path.join(os.path.dirname(__file__), '..', '..', '.env')
 load_dotenv(dotenv_path=dotenv_path)
 
 class DBEngine:

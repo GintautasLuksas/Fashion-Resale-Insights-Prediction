@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 
 
-def load_raw_data(filepath):
+def load_raw_data(filepath: str) -> pd.DataFrame:
     """
     Loads raw CSV data from the given filepath.
 
@@ -21,13 +21,13 @@ def load_raw_data(filepath):
     return df
 
 
-def clean_data(df):
+def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     """
     Performs initial cleaning of the dataset.
 
     - Drops duplicates.
     - Removes rows with missing essential data (brand, price).
-    - Casts appropriate dtypes.
+    - Casts appropriate dtypes for boolean columns.
     - Drops all rows with any remaining missing values.
 
     Parameters:
@@ -39,17 +39,22 @@ def clean_data(df):
     df = df.drop_duplicates()
     df = df.dropna(subset=['price_usd', 'brand_name'])
 
-    # Convert boolean-like columns if needed
     bool_columns = ['sold', 'reserved', 'available', 'in_stock', 'should_be_gone']
     for col in bool_columns:
-        df[col] = df[col].astype(bool)
+        if col in df.columns:
+            df[col] = (
+                df[col].astype(str)
+                .str.lower()
+                .map({'true': True, 'false': False, '1': True, '0': False})
+                .astype('boolean')
+            )
 
     df = df.dropna()
 
     return df
 
 
-def engineer_features(df):
+def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
     """
     Creates additional features for modeling and analysis.
 
@@ -65,7 +70,6 @@ def engineer_features(df):
     """
     df['price_log'] = df['price_usd'].apply(lambda x: np.log1p(x) if pd.notnull(x) else np.nan)
 
-    # Encode common categorical features
     df['brand_encoded'] = df['brand_name'].astype('category').cat.codes
     df['condition_encoded'] = df['product_condition'].astype('category').cat.codes
     df['gender_encoded'] = df['product_gender_target'].astype('category').cat.codes
@@ -73,7 +77,7 @@ def engineer_features(df):
     return df
 
 
-def select_final_columns(df):
+def select_final_columns(df: pd.DataFrame) -> pd.DataFrame:
     """
     Filters the DataFrame to a manageable set of columns for PostgreSQL storage.
 
@@ -101,11 +105,17 @@ def select_final_columns(df):
         'condition_encoded',
         'gender_encoded'
     ]
-    return df[columns_to_keep]
+    return df[[col for col in columns_to_keep if col in df.columns]]
 
-def encode_categoricals(df):
+
+def encode_categoricals(df: pd.DataFrame) -> pd.DataFrame:
     """
     Placeholder for future encoding steps.
-    Currently returns df unchanged.
+
+    Parameters:
+        df (pd.DataFrame): Dataset to encode.
+
+    Returns:
+        pd.DataFrame: Currently unchanged.
     """
     return df
