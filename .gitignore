@@ -158,6 +158,7 @@ __marimo__/
 
 # Data CSV files (ignore raw data)
 data/raw/*.csv
+data/processed/*.csv
 
 # Bytecode files
 *.pyc
