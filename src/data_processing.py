@@ -28,7 +28,7 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     - Drops duplicates.
     - Removes rows with missing essential data (brand, price).
     - Casts appropriate dtypes for boolean columns.
-    - Drops all rows with any remaining missing values.
+    - Drops rows with missing values *only* if none of the boolean columns are True.
 
     Parameters:
         df (pd.DataFrame): Raw dataset.
@@ -49,7 +49,11 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
                 .astype('boolean')
             )
 
-    df = df.dropna()
+    # Create mask for rows where any boolean is True
+    mask_true = df[bool_columns].any(axis=1)
+
+    # Drop rows with missing values only if none of the booleans are True
+    df = df[mask_true | df.notna().all(axis=1)]
 
     return df
 
