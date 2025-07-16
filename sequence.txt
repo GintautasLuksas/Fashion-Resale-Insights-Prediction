@@ -1,4 +1,6 @@
 1.Created venv added interpreter / gitignore / license / readme.md
 2.Created structure and added raw data.
 3.Creating file connect.py to establish connection with DB.
-4.
+4.Adding data_processing.py to clean the columns (had to add exceptions for "sold" category as True boolens were filtered out.
+5.Set main to export csv data to postgreSQL.
+6.Once items are in the server created new table to have only items that were sold.
