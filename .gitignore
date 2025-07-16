@@ -154,7 +154,7 @@ __marimo__/
 
 # Environment variables file (local secrets)
 .env
-.envrc
+.envrc 
 
 # Data CSV files (ignore raw data)
 data/
