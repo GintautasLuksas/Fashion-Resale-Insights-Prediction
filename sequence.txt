@@ -3,4 +3,90 @@
 3.Creating file connect.py to establish connection with DB.
 4.Adding data_processing.py to clean the columns (had to add exceptions for "sold" category as True boolens were filtered out.
 5.Set main to export csv data to postgreSQL.
-6.Once items are in the server created new table to have only items that were sold.
+
+
+Inside PostgreSQL:
+Once items are in the server created new table to have only items that were sold.
+CREATE TABLE fashion_resale_sold AS
+SELECT *
+FROM fashion_resale
+WHERE sold = TRUE;
+
+ALTER TABLE fashion_resale_sold
+ADD PRIMARY KEY (product_id);
+
+
+Basic insights:
+Sell-through rate
+SELECT COUNT(*) FILTER (WHERE sold = TRUE)::float / COUNT(*) AS sell_through_rate FROM fashion_resale;
+0.0154% which is very low as 890992 rows while sold were 13736 items.
+
+Most popular brands that were sold:
+SELECT brand_name, COUNT(*) AS sold_count
+FROM fashion_resale_sold
+GROUP BY brand_name
+ORDER BY sold_count DESC
+LIMIT 10;
+
+"Gucci"	853
+"Prada"	527
+"Hermès"	348
+"Burberry"	338
+"Chanel"	329
+"Louis Vuitton"	304
+"Balenciaga"	289
+"Dolce & Gabbana"	288
+"Christian Louboutin"	247
+"Saint Laurent"	236
+
+In total most popular brands
+SELECT brand_name, COUNT(*) AS sold_count
+FROM fashion_resale
+GROUP BY brand_name
+ORDER BY sold_count DESC
+LIMIT 10;
+
+"Gucci"	40101
+"Burberry"	23932
+"Dolce & Gabbana"	21732
+"Prada"	20579
+"Hermès"	18670
+"Louis Vuitton"	18555
+"Chanel"	14753
+"Nike"	13595
+"Valentino Garavani"	10529
+"Balenciaga"	10450
+
+
+Now dependancy on how many items were sold depending on quantity of items:
+
+SELECT
+    l.brand_name,
+    l.listed_count,
+    COALESCE(s.sold_count, 0) AS sold_count,
+    ROUND(COALESCE(s.sold_count, 0)::decimal / l.listed_count * 100, 2) AS sold_percentage
+FROM
+    (SELECT brand_name, COUNT(*) AS listed_count
+     FROM fashion_resale
+     GROUP BY brand_name
+     ORDER BY listed_count DESC
+     LIMIT 10) l
+LEFT JOIN
+    (SELECT brand_name, COUNT(*) AS sold_count
+     FROM fashion_resale_sold
+     GROUP BY brand_name) s
+ON l.brand_name = s.brand_name
+ORDER BY l.listed_count DESC;
+
+
+"brand_name","listed_count","sold_count","sold_percentage"
+"Gucci","40101","853","2.13"
+"Burberry","23932","338","1.41"
+"Dolce & Gabbana","21732","288","1.33"
+"Prada","20579","527","2.56"
+"Hermès","18670","348","1.86"
+"Louis Vuitton","18555","304","1.64"
+"Chanel","14753","329","2.23"
+"Nike","13595","84","0.62"
+"Valentino Garavani","10529","226","2.15"
+"Balenciaga","10450","289","2.77"
