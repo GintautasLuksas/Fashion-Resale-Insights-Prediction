@@ -90,3 +90,5 @@ ORDER BY l.listed_count DESC;
 "Nike","13595","84","0.62"
 "Valentino Garavani","10529","226","2.15"
 "Balenciaga","10450","289","2.77"
+
+further
