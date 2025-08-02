@@ -94,4 +94,54 @@ ORDER BY l.listed_count DESC;
 
 Why is it important? You can see dependencie if the quantity is equal to item popularity.
 
-Vaction mode....
+SELECT
+    product_gender_target,
+    COUNT(*) AS count,
+    ROUND(100.0 * COUNT(*) / (SELECT COUNT(*) FROM public.fashion_resale_sold), 2) AS percentage
+FROM
+    public.fashion_resale_sold
+WHERE
+    product_gender_target IN ('Men', 'Women')
+GROUP BY
+    product_gender_target;
+
+"product_gender_target"	"count"	"percentage"
+"Women"	8453	61.54
+"Men"	5283	38.46
+
+
+SELECT
+    product_gender_target,
+    product_type,
+    count,
+    percentage
+FROM (
+    SELECT
+        product_gender_target,
+        product_type,
+        COUNT(*) AS count,
+        ROUND(100.0 * COUNT(*) / SUM(COUNT(*)) OVER (PARTITION BY product_gender_target), 2) AS percentage,
+        ROW_NUMBER() OVER (PARTITION BY product_gender_target ORDER BY COUNT(*) DESC) AS rank
+    FROM
+        public.fashion_resale_sold
+    WHERE
+        product_gender_target IN ('Men', 'Women')
+    GROUP BY
+        product_gender_target, product_type
+) ranked
+WHERE rank <= 5
+ORDER BY product_gender_target, count DESC;
+
+
+
+"product_gender_target"	"product_type"	"count"	"percentage"
+"Men"	"T-shirt"	414	7.84
+"Men"	"Shirt"	250	4.73
+"Men"	"Leather low trainers"	214	4.05
+"Men"	"Sweatshirt"	213	4.03
+"Men"	"Jacket"	213	4.03
+"Women"	"Leather heels"	374	4.42
+"Women"	"Mid-length dress"	284	3.36
+"Women"	"Leather trainers"	221	2.61
+"Women"	"Leather flats"	198	2.34
+"Women"	"Maxi dress"	185	2.19
