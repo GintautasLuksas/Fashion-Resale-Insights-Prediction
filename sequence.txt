@@ -145,3 +145,5 @@ ORDER BY product_gender_target, count DESC;
 "Women"	"Leather trainers"	221	2.61
 "Women"	"Leather flats"	198	2.34
 "Women"	"Maxi dress"	185	2.19
+
+By far the most popular product for men is T-shirt
