@@ -4,6 +4,7 @@
 4.Adding data_processing.py to clean the columns (had to add exceptions for "sold" category as True boolens were filtered out.
 5.Set main to export csv data to postgreSQL.
 
+Main goals:
 
 Inside PostgreSQL:
 Once items are in the server created new table to have only items that were sold.
@@ -147,3 +148,4 @@ ORDER BY product_gender_target, count DESC;
 "Women"	"Maxi dress"	185	2.19
 
 By far the most popular product for men is T-shirt
+
