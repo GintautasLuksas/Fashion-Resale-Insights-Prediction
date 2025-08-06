@@ -7,12 +7,15 @@
 Main goals:
 Task 1: PostgreSQL – Clean & Structure the Dataset
 Goal: Make the dataset clean, normalized (if needed), and ready for queries.
+Done partly
 
 Task 2: Machine Learning – Feature Engineering & Modeling Prep
 Goal: Build a dataset to predict price, sales success, or product desirability.
+Will need further analysis
 
 Task 3: Power BI – Analytics Dashboard Prep
-Goal: Track sales performance, seller performance, product trends
+Goal: Track sales performance, seller performance, product trends.
+Last step
 
 Inside PostgreSQL:
 Once items are in the server created new table to have only items that were sold.
