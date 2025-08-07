@@ -16,6 +16,7 @@ Will need further analysis
 Task 3: Power BI – Analytics Dashboard Prep
 Goal: Track sales performance, seller performance, product trends.
 Last step
+Each step has to have its Why it is important and must be understood how it is done. 
 
 Inside PostgreSQL:
 Once items are in the server created new table to have only items that were sold.
