@@ -166,8 +166,7 @@ def preprocess(df: pd.DataFrame) -> pd.DataFrame:
 
 if __name__ == "__main__":
     # Example usage
-    filepath = 'path_to_your_cleaned_data.csv'
+    filepath = r'C:\Users\user\PycharmProjects\Fashion-Resale-Insights-Prediction\data\processed\cleaned_data.csv'
     df = pd.read_csv(filepath)
     df_processed = preprocess(df)
     print(df_processed.head())
-    
