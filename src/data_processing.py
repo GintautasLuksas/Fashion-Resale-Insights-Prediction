@@ -37,7 +37,7 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
         pd.DataFrame: Cleaned dataset.
     """
     df = df.drop_duplicates()
-    df = df.dropna(subset=['price_usd', 'brand_name'])
+    df = df.dropna(subset=['brand_name'])  # only drop brand here; price imputed later
 
     bool_columns = ['sold', 'reserved', 'available', 'in_stock', 'should_be_gone']
     for col in bool_columns:
@@ -54,6 +54,24 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
 
     # Drop rows with missing values only if none of the booleans are True
     df = df[mask_true | df.notna().all(axis=1)]
+
+    return df
+
+
+def impute_price_median(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Fills missing price_usd with the median price of sold items.
+
+    Parameters:
+        df (pd.DataFrame): Dataset after initial cleaning.
+
+    Returns:
+        pd.DataFrame: Dataset with missing prices imputed.
+    """
+    median_price_sold = df.loc[df['sold'] == True, 'price_usd'].median()
+
+    mask_missing_price = df['price_usd'].isna()
+    df.loc[mask_missing_price & (df['sold'] == True), 'price_usd'] = median_price_sold
 
     return df
 
@@ -123,3 +141,15 @@ def encode_categoricals(df: pd.DataFrame) -> pd.DataFrame:
         pd.DataFrame: Currently unchanged.
     """
     return df
+
+
+# Example pipeline usage:
+if __name__ == "__main__":
+    filepath = 'path_to_your_raw_data.csv'
+    df = load_raw_data(filepath)
+    df = clean_data(df)
+    df = impute_price_median(df)
+    df = engineer_features(df)
+    df = select_final_columns(df)
+    df = encode_categoricals(df)
+    # Now df is ready for export or further analysis
