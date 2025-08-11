@@ -1,172 +1,70 @@
-"""
-ML preprocessing pipeline for Fashion Resale dataset.
-Includes advanced cleaning, feature engineering, encoding, and scaling.
-"""
-
 import pandas as pd
-import numpy as np
-from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
+def clean_for_ml(df):
+    df = df.copy()
 
-def advanced_impute_and_clean(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Advanced missing value imputation and normalization for ML use.
-
-    - Fill missing text columns with placeholder.
-    - Normalize text columns (lowercase, strip).
-    - Fill missing numeric seller stats with 0.
-    - Convert booleans consistently.
-    - Drop or flag rows missing essential info if needed.
-    """
-    # Fill missing text fields
-    text_cols = ['product_name', 'product_description', 'product_keywords']
-    for col in text_cols:
-        df[col] = df[col].fillna('no info')
-
-    # Normalize text categorical columns
-    cat_text_cols = [
-        'product_type', 'product_category', 'product_season',
-        'product_gender_target', 'product_condition',
-        'product_material', 'product_color',
-        'seller_badge', 'warehouse_name', 'seller_country'
+    # 1. Drop ID-like or constant columns
+    drop_cols = [
+        "product_id", "seller_id", "brand_id", "brand_url", "seller_username",
+        "reserved", "has_cross_border_fees"
     ]
-    for col in cat_text_cols:
-        if col in df.columns:
-            df[col] = df[col].astype(str).str.lower().str.strip()
+    drop_cols = [c for c in drop_cols if c in df.columns]
+    df.drop(columns=drop_cols, inplace=True)
 
-    # Fill missing numeric seller stats with 0 or median
-    seller_num_cols = [
-        'seller_products_sold', 'seller_num_products_listed',
-        'seller_num_followers', 'seller_pass_rate',
-        'product_like_count', 'price_usd', 'seller_price', 'seller_earning'
+    # 2. Binary features → 0/1 integers
+    binary_cols = [
+        "in_stock", "sold", "available", "should_be_gone", "product_gender_target"
     ]
-    for col in seller_num_cols:
+    for col in binary_cols:
         if col in df.columns:
-            df[col] = pd.to_numeric(df[col], errors='coerce')
-            median_val = df[col].median()
-            df[col] = df[col].fillna(median_val)
+            df[col] = df[col].astype(str).str.lower().map(
+                {"true": 1, "false": 0, "1": 1, "0": 0}
+            ).fillna(0).astype(int)
 
-    # Convert boolean columns explicitly
-    bool_cols = ['sold', 'reserved', 'available', 'in_stock', 'should_be_gone', 'has_cross_border_fees', 'buyers_fees']
-    for col in bool_cols:
-        if col in df.columns:
-            df[col] = (
-                df[col].astype(str)
-                .str.lower()
-                .map({'true': True, 'false': False, '1': True, '0': False})
-                .fillna(False)
-                .astype('boolean')
-            )
+    # 3. Fill missing values
+    for col in df.columns:
+        if df[col].dtype == "object":
+            df[col] = df[col].fillna("Unknown")
+        else:
+            df[col] = df[col].fillna(df[col].median())
 
-    # TODO: Consider dropping rows missing critical info (product_id, brand_name)
-    df = df.dropna(subset=['product_id', 'brand_name'])
+    # 4. Separate categorical and numeric
+    cat_cols = df.select_dtypes(include=["object"]).columns.tolist()
+    num_cols = df.select_dtypes(exclude=["object"]).columns.tolist()
 
-    return df
+    # 5. One-hot encode low-cardinality categorical features
+    low_card_cat = [c for c in cat_cols if df[c].nunique() <= 20]
+    high_card_cat = [c for c in cat_cols if df[c].nunique() > 20]
 
+    if low_card_cat:
+        encoder = OneHotEncoder(sparse_output=False, drop="first")
+        encoded = encoder.fit_transform(df[low_card_cat])
+        encoded_df = pd.DataFrame(encoded, columns=encoder.get_feature_names_out(low_card_cat))
+        df = pd.concat([df.drop(columns=low_card_cat), encoded_df], axis=1)
 
-def text_processing(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Simple text cleaning for product_name, description, keywords.
-    Removes special characters and lowercases.
-    """
-    for col in ['product_name', 'product_description', 'product_keywords']:
-        if col in df.columns:
-            df[col] = (
-                df[col]
-                .str.lower()
-                .str.replace(r'[^\w\s]', '', regex=True)
-                .str.strip()
-            )
-    return df
+    # 6. Frequency encode high-cardinality categorical features
+    for col in high_card_cat:
+        freq_map = df[col].value_counts(normalize=True).to_dict()
+        df[col] = df[col].map(freq_map)
 
-
-def encode_categoricals(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Encode categorical columns with label encoding or one-hot encoding.
-
-    - Use label encoding for high cardinality columns.
-    - Use one-hot for low cardinality columns.
-    """
-
-    # Label encoding for brand_name, seller_id (high cardinality)
-    label_encode_cols = ['brand_name', 'seller_id', 'seller_username']
-    for col in label_encode_cols:
-        if col in df.columns:
-            le = LabelEncoder()
-            df[col] = df[col].astype(str)
-            df[col] = le.fit_transform(df[col])
-
-    # One-hot encoding for product_type, product_category, product_season, product_gender_target, product_condition, seller_country
-    one_hot_cols = [
-        'product_type', 'product_category', 'product_season',
-        'product_gender_target', 'product_condition', 'seller_country'
-    ]
-    one_hot_cols = [col for col in one_hot_cols if col in df.columns]
-    df = pd.get_dummies(df, columns=one_hot_cols, drop_first=True)
-
-    return df
-
-
-def handle_outliers(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Placeholder for outlier detection and capping.
-    For example, cap prices at 99th percentile.
-    """
-    if 'price_usd' in df.columns:
-        upper_bound = df['price_usd'].quantile(0.99)
-        df.loc[df['price_usd'] > upper_bound, 'price_usd'] = upper_bound
-
-    # Similarly cap other numeric columns if needed
-    return df
-
-
-def scale_numeric_features(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Scale numeric features with StandardScaler.
-    """
-    numeric_cols = [
-        'price_usd', 'seller_price', 'seller_earning',
-        'seller_products_sold', 'seller_num_products_listed',
-        'seller_num_followers', 'seller_pass_rate',
-        'product_like_count'
-    ]
-    numeric_cols = [col for col in numeric_cols if col in df.columns]
-
+    # 7. Standard scale numeric columns
     scaler = StandardScaler()
-    df[numeric_cols] = scaler.fit_transform(df[numeric_cols])
+    df[num_cols] = scaler.fit_transform(df[num_cols])
 
     return df
 
 
-def drop_unused_columns(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Drop columns that are not useful for ML.
-    """
-    to_drop = [
-        'brand_url', 'seller_badge', 'warehouse_name', 'seller_username',
-        'product_description', 'product_keywords'  # Keep or drop depending on use case
-    ]
-    to_drop = [col for col in to_drop if col in df.columns]
-    df = df.drop(columns=to_drop)
-    return df
+# ------------------------
+# Load, clean, and save
+# ------------------------
+input_path = r"C:\Users\user\PycharmProjects\Fashion-Resale-Insights-Prediction\data\raw\vestiaire.csv"
+output_path = r"C:\Users\user\PycharmProjects\Fashion-Resale-Insights-Prediction\data\processed\cleaned_data.csv"
 
+df = pd.read_csv(input_path)
+df_clean = clean_for_ml(df)
 
-def preprocess(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Full ML preprocessing pipeline.
-    """
-    df = advanced_impute_and_clean(df)
-    df = text_processing(df)
-    df = handle_outliers(df)
-    df = encode_categoricals(df)
-    df = scale_numeric_features(df)
-    df = drop_unused_columns(df)
-    return df
+df_clean.to_csv(output_path, index=False)
 
-
-if __name__ == "__main__":
-    # Example usage
-    filepath = r'C:\Users\user\PycharmProjects\Fashion-Resale-Insights-Prediction\data\processed\cleaned_data.csv'
-    df = pd.read_csv(filepath)
-    df_processed = preprocess(df)
-    print(df_processed.head())
+print(f"✅ Cleaned dataset saved to {output_path}")
+print(f"Shape: {df_clean.shape}")
