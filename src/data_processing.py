@@ -1,41 +1,22 @@
-"""
-Data processing functions for the Fashion Resale project.
-Loads, cleans, and prepares data for database insertion and machine learning.
-"""
-
 import pandas as pd
 import numpy as np
 
 
+"""Data processing functions for the Fashion Resale project.
+Loads, cleans, and prepares data for database insertion and machine learning."""
+
 def load_raw_data(filepath: str) -> pd.DataFrame:
-    """
-    Loads raw CSV data from the given filepath.
-
-    Parameters:
-        filepath (str): Full path to the CSV file.
-
-    Returns:
-        pd.DataFrame: Raw loaded dataset.
-    """
+    """  Loads raw CSV data from the given filepath. """
     df = pd.read_csv(filepath, low_memory=False)
     return df
 
 
 def clean_data(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Performs initial cleaning of the dataset.
-
-    - Drops duplicates.
+    """- Drops duplicates.
     - Removes rows with missing essential data (brand, price).
     - Casts appropriate dtypes for boolean columns.
-    - Drops rows with missing values *only* if none of the boolean columns are True.
+    - Drops rows with missing values *only* if none of the boolean columns are True."""
 
-    Parameters:
-        df (pd.DataFrame): Raw dataset.
-
-    Returns:
-        pd.DataFrame: Cleaned dataset.
-    """
     df = df.drop_duplicates()
     df = df.dropna(subset=['brand_name'])  # only drop brand here; price imputed later
 
