@@ -55,7 +55,6 @@ def clean_for_ml(df):
     return df
 
 
-# ------------------------
 # Load, clean, and save
 # ------------------------
 input_path = r"C:\Users\user\PycharmProjects\Fashion-Resale-Insights-Prediction\data\raw\vestiaire.csv"
