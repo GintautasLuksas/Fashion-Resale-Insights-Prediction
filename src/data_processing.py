@@ -13,7 +13,7 @@ def load_raw_data(filepath: str) -> pd.DataFrame:
 
 def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     """- Drops duplicates.
-    - Removes rows with missing essential data (brand, price).
+    - Removes rows with missing essential data (brand).
     - Casts appropriate dtypes for boolean columns.
     - Drops rows with missing values *only* if none of the boolean columns are True."""
 
