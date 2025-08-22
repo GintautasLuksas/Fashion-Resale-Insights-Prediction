@@ -18,13 +18,68 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     - Removes rows with missing essential data (brand)"""
 
     df = df.drop_duplicates()
-    df = df.drop(columns=['reserved', 'should_be_gone'])
+    df = df.drop(columns=['product_id', 'product_name', 'product_description', 'product_keywords'
+                          'product_like_count', 'reserved', 'should_be_gone',  'brand_id', 'brand_url',
+                          'seller_id', 'seller_username', 'usually_ships_within', 'seller_products_sold',
+                          'seller_num_products_listed', 'seller_community_rank', 'seller_num_followers',
+                          'seller_pass_rate'])
     df = df.dropna(subset=['brand_name'])
 
     """"Dropping any rows that has less than 100 entries in product_type category"""
     product_counts = df['product_type'].value_counts()
     valid_products = product_counts[product_counts >= 100].index
     df = df[df['product_type'].isin(valid_products)].copy()
+
+    """- Maps detailed product_type entries into broader, high-level categories for easier analysis.
+    - Original `product_type` is preserved for detailed views or later ML/NLP work.
+    - New column `category_group` is created with simplified groups such as:
+        - Clothing
+        - Footwear
+        - Accessories
+        - Bags
+        - Intimates & Swimwear
+        - Other
+    - Any product_type not explicitly mapped is assigned to 'Other'. """
+
+    group_map = {
+        'T-shirt': 'Clothing', 'Shirt': 'Clothing', 'Polo shirt': 'Clothing',
+        'Sweatshirt': 'Clothing', 'Top': 'Clothing', 'Vest': 'Clothing',
+        'Blouse': 'Clothing', 'Dress': 'Clothing', 'Mini dress': 'Clothing',
+        'Mid-length dress': 'Clothing', 'Maxi dress': 'Clothing',
+        'Skirt': 'Clothing', 'Mini skirt': 'Clothing', 'Mid-length skirt': 'Clothing',
+        'Trousers': 'Clothing', 'Jeans': 'Clothing', 'Slim jeans': 'Clothing',
+        'Straight jeans': 'Clothing', 'Shorts': 'Clothing', 'Leggings': 'Clothing',
+        'Suit': 'Clothing', 'Suit jacket': 'Clothing', 'Blazer': 'Clothing',
+        'Coat': 'Clothing', 'Wool coat': 'Clothing', 'Trench coat': 'Clothing',
+        'Jacket': 'Clothing', 'Leather jacket': 'Clothing', 'Wool jacket': 'Clothing',
+        'Pull': 'Clothing', 'Wool pull': 'Clothing', 'Cardigan': 'Clothing',
+
+        'Boots': 'Footwear', 'Leather boots': 'Footwear',
+        'Heels': 'Footwear', 'Leather heels': 'Footwear', 'Patent leather heels': 'Footwear',
+        'Flats': 'Footwear', 'Leather flats': 'Footwear', 'Ballet flats': 'Footwear',
+        'Sandals': 'Footwear', 'Leather sandals': 'Footwear', 'Leather mules': 'Footwear',
+        'Trainers': 'Footwear', 'Leather trainers': 'Footwear',
+        'Low trainers': 'Footwear', 'Cloth trainers': 'Footwear',
+        'Mules & clogs': 'Footwear',
+
+        'Sunglasses': 'Accessories', 'Watch': 'Accessories',
+        'Belt': 'Accessories', 'Leather belt': 'Accessories',
+        'Hat': 'Accessories', 'Scarf': 'Accessories', 'Tie': 'Accessories',
+        'Silk tie': 'Accessories', 'Gloves': 'Accessories', 'Jewellery': 'Accessories',
+
+        'Bag': 'Bags', 'Clutch': 'Bags', 'Backpack': 'Bags',
+        'Handbag': 'Bags', 'Shoulder bag': 'Bags', 'Tote': 'Bags',
+
+        'Lingerie': 'Intimates & Swimwear', 'Silk lingerie set': 'Intimates & Swimwear',
+        'Bra': 'Intimates & Swimwear', 'Underwear': 'Intimates & Swimwear',
+        'Swimwear': 'Intimates & Swimwear', 'Bikini': 'Intimates & Swimwear',
+
+        'Wallet': 'Other', 'Cufflinks': 'Other', 'Home textile': 'Other'
+    }
+
+    df['category_group'] = df['product_type'].map(group_map).fillna('Other')
+    """"Fill product category NA values with "Other". Its most of the time Me or Women clothing."""
+    df['product_category'] = df['product_category'].fillna('Other')
 
     return df
 

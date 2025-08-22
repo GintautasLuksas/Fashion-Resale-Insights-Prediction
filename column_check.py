@@ -49,4 +49,18 @@ with open(txt_path, 'w', encoding='utf-8') as f:
 print(f"File saved to {txt_path}")
 
 
+# Check unique values for product_gender_target
+if 'product_gender_target' in df.columns:
+    print("\n--- product_gender_target ---")
+    print("Unique values:", df['product_gender_target'].unique())
+    print("Value counts:")
+    print(df['product_gender_target'].value_counts(dropna=False))
+
+# Check unique values for product_category
+if 'product_category' in df.columns:
+    print("\n--- product_category ---")
+    print("Unique values:", df['product_category'].unique())
+    print("Value counts:")
+    print(df['product_category'].value_counts(dropna=False))
+
 
