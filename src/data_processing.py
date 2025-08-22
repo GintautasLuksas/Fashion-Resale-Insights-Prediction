@@ -6,35 +6,25 @@ import numpy as np
 Loads, cleans, and prepares data for database insertion and machine learning."""
 
 def load_raw_data(filepath: str) -> pd.DataFrame:
-    """  Loads raw CSV data from the given filepath. """
+    """  Loads raw CSV data from the given filepath.
+    low_memory = False - uses more memory but reads all document at once. By default it reads document by chunks. """
     df = pd.read_csv(filepath, low_memory=False)
     return df
 
 
 def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     """- Drops duplicates.
-    - Removes rows with missing essential data (brand).
-    - Casts appropriate dtypes for boolean columns.
-    - Drops rows with missing values *only* if none of the boolean columns are True."""
+    - Removes reserved and should be gone columns. (no valuable data can be estracted)
+    - Removes rows with missing essential data (brand)"""
 
     df = df.drop_duplicates()
-    df = df.dropna(subset=['brand_name'])  # only drop brand here; price imputed later
+    df = df.drop(columns=['reserved', 'should_be_gone'])
+    df = df.dropna(subset=['brand_name'])
 
-    bool_columns = ['sold', 'reserved', 'available', 'in_stock', 'should_be_gone']
-    for col in bool_columns:
-        if col in df.columns:
-            df[col] = (
-                df[col].astype(str)
-                .str.lower()
-                .map({'true': True, 'false': False, '1': True, '0': False})
-                .astype('boolean')
-            )
-
-    # Create mask for rows where any boolean is True
-    mask_true = df[bool_columns].any(axis=1)
-
-    # Drop rows with missing values only if none of the booleans are True
-    df = df[mask_true | df.notna().all(axis=1)]
+    """"Dropping any rows that has less than 100 entries in product_type category"""
+    product_counts = df['product_type'].value_counts()
+    valid_products = product_counts[product_counts >= 100].index
+    df = df[df['product_type'].isin(valid_products)].copy()
 
     return df
 

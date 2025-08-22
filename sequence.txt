@@ -19,6 +19,10 @@ Last step
 Each step has to have its Why it is important and must be understood how it is done. 
 
 ------------------------------------------------------------------------------------
+
+Task 1: PostgreSQL Clean & Structure the dataset for it.
+
+------------------------------------------------------------------------------------
 Inside PostgreSQL:
 Once items are in the server created new table to have only items that were sold.
 CREATE TABLE fashion_resale_sold AS
