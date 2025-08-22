@@ -20,9 +20,10 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     df = df.drop_duplicates()
     df = df.drop(columns=['product_id', 'product_name', 'product_description', 'product_keywords'
                           'product_like_count', 'reserved', 'should_be_gone',  'brand_id', 'brand_url',
+                          'seller_badge', 'has_cross_border_fees', 'buyers_fees', 'warehouse_name',
                           'seller_id', 'seller_username', 'usually_ships_within', 'seller_products_sold',
                           'seller_num_products_listed', 'seller_community_rank', 'seller_num_followers',
-                          'seller_pass_rate'])
+                          'seller_pass_rate',])
     df = df.dropna(subset=['brand_name'])
 
     """"Dropping any rows that has less than 100 entries in product_type category"""
