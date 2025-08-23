@@ -5,7 +5,6 @@ Main script to run data loading, cleaning, and processing pipeline.
 from src.data_processing import (
     load_raw_data,
     clean_data,
-    engineer_features,
     select_final_columns
 )
 from src.db.insert import insert_dataframe_to_postgres
@@ -27,12 +26,9 @@ def main():
         df_cleaned = clean_data(df_raw)
         print(f"Rows after cleaning: {df_cleaned.shape[0]} (Dropped {df_raw.shape[0] - df_cleaned.shape[0]} rows)")
 
-        print("🛠️ Engineering features...")
-        df_features = engineer_features(df_cleaned)
-        print(f"Rows after feature engineering: {df_features.shape[0]}")
 
         print("📦 Selecting final columns...")
-        df_final = select_final_columns(df_features)
+        df_final = select_final_columns(df_cleaned)
         print(f"Final dataset shape: {df_final.shape}")
 
         print("📝 Sample rows:")

@@ -13,9 +13,13 @@ def load_raw_data(filepath: str) -> pd.DataFrame:
 
 
 def clean_data(df: pd.DataFrame) -> pd.DataFrame:
-    """- Drops duplicates.
-    - Removes reserved and should be gone columns. (no valuable data can be estracted)
-    - Removes rows with missing essential data (brand)"""
+    """- Removing columns not usefull for SQL database and PowerBI insights.
+    - Drop duplicates
+    - If 'na' dropping rows
+    -Maping product_type to category_group
+    -Creating new brand_name group of others with less than 50 entries
+    -Creating new product material group others for less than 1000 entries"""
+
 
 
     df = df.drop(columns=['product_id', 'product_name', 'product_description', 'product_keywords',
@@ -115,32 +119,31 @@ def select_final_columns(df: pd.DataFrame) -> pd.DataFrame:
         pd.DataFrame: Final dataset with selected features.
     """
     columns_to_keep = [
-        'product_id',
-        'product_type',
-        'brand_name',
-        'product_gender_target',
-        'product_condition',
-        'product_material',
+        'product_type',  # filtered to >=100 entries
+        'category_group',  # new super-categories from product_type
+        'brand_name',  # rare brands grouped as 'Other'
+        'product_gender_target',  # Women / Men
+        'product_category',  # 6 main categories, missing filled with 'Other'
+        'product_season',  # Autumn/Winter, Spring/Summer
+        'product_condition',  # 5 condition categories
+        'sold',
+        'available',
+        'in_stock',
+        'product_material',  # rare materials grouped as 'Other'
         'product_color',
         'price_usd',
-        'price_log',
-        'sold',
+        'seller_price',
+        'seller_earning',
         'seller_country',
         'seller_products_sold',
-        'seller_pass_rate',
-        'brand_encoded',
-        'condition_encoded',
-        'gender_encoded'
+        'seller_num_products_listed'
     ]
+
     return df[[col for col in columns_to_keep if col in df.columns]]
 
 
-
-# Example pipeline usage:
 if __name__ == "__main__":
     filepath = 'path_to_your_raw_data.csv'
     df = load_raw_data(filepath)
     df = clean_data(df)
-    df = impute_price_median(df)
     df = select_final_columns(df)
-    # Now df is ready for export or further analysis
