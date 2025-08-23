@@ -21,6 +21,55 @@ Each step has to have its Why it is important and must be understood how it is d
 ------------------------------------------------------------------------------------
 
 Task 1: PostgreSQL Clean & Structure the dataset for it.
+data_processing.py establishment
+
+---loading data set. Parameter low_memory=False, to load big data set. ---
+By default if not False data is checked by chunks which may lead to wrong interpretation of the column category
+
+---Deciding which Columns to keep for SQL base ---
+
+Product_type: filtered out product types that had less than 100 entries //
+Prodect_category: New product types for narrow categories from product_type
+Product_gender_target: two categories for woman and men.
+Product_category:   6 in category, clear distinction. Missing values filled with 'Other'. First thought was dropping those rows out.
+Product_season: 2 categories Autum / Winter, Spring / Summer.
+Product_condition: 5 categories: Very good condition, never worn, good condition, never worn, with tag, fair condition.
+Sold: essential category to see which items were sold.
+Available: - if not available remove line. In dataset non missing
+In_stock: - if not in stock remove.In dataset non missing
+Brand_name: essential category. Unique count 8884. Brands with less than 50 entries 7480.
+Product_material. 70 categories. With less than 1000 38, creating category others
+Product_color: 30 unique colours
+
+<<Seller characteristics>>
+Price_usd
+Seller_price
+Seller_earning
+Seller_country
+seller_products_sold
+seller_num_products_listed
+
+SQL DROP:
+Product_id: No usefull information can be extracted from this.
+Product_name: Not for SQL base.
+Product_description: Not for SQL base.
+Product_keywords: Not for SQL base.
+Product_like_count: No usefull information can be extracted from this.
+Reserved: No usefull information can be extracted from this.
+Should_be_gone: No usefull information can be extracted from this.
+brand_id: No usefull information can be extracted from this.
+Brand_url: No usefull information can be extracted from this.
+Seller_badge: No usefull information can be extracted from this.
+Has_cross_border_fees: No usefull information can be extracted from this.
+buyers_fees: No usefull information can be extracted from this.
+Warehouse_name: No usefull information can be extracted from this.
+Seller_id: No usefull information can be extracted from this.
+Seller_username: No usefull information can be extracted from this.
+Usually_ships_within: No usefull information can be extracted from this.
+seller_community_rank: No usefull information can be extracted from this.
+Seller_num_followers: No usefull information can be extracted from this.
+Seller_pass_rate: No usefull information can be extracted from this.
+
 
 ------------------------------------------------------------------------------------
 Inside PostgreSQL:

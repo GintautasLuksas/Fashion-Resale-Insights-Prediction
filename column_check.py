@@ -1,66 +1,72 @@
 import pandas as pd
 
-# Load your dataset
-file_path = r"C:\Users\user\PycharmProjects\Fashion-Resale-Insights-Prediction\data\raw\vestiaire.csv"
-df = pd.read_csv(file_path)
-
-# 1. Display number of non-null (filled) entries for each column
-# print("Non-null counts per column:")
-# print(df.notnull().sum())
-#
-# # 2. Percentage completeness for each column
-# print("\nPercentage of non-null values per column:")
-# print((df.notnull().sum() / len(df) * 100).round(2))
-#
-# # 3. Number of unique values per column
-# unique_counts = df.nunique()
-# print("\nUnique values per column:")
-# print(unique_counts.sort_values(ascending=False))
-
-# 4. Inspect unique values for boolean-like columns
-bool_columns = ['sold', 'reserved', 'available', 'in_stock', 'should_be_gone']
-
-# for col in bool_columns:
-#     if col in df.columns:
-#         print(f"\n--- {col} ---")
-#         print("Unique values:", df[col].unique())
-#         print("\nValue counts:")
-#         print(df[col].value_counts(dropna=False))
-
-
-import pandas as pd
-
-# Load your dataset
+# Load dataset
 file_path = r"C:\Users\user\PycharmProjects\Fashion-Resale-Insights-Prediction\data\raw\vestiaire.csv"
 df = pd.read_csv(file_path, low_memory=False)
 
-# Filter only sold items
-sold_items = df[df['sold'] == False]
+# Columns to keep for SQL
+keep_cols = [
+    'product_type',
+    'product_gender_target',
+    'product_category',
+    'product_season',
+    'product_condition',
+    'sold',
+    'available',
+    'in_stock',
+    'brand_name',
+    'product_material',
+    'product_color',
+    'price_usd',
+    'seller_price',
+    'seller_earning',
+    'seller_country',
+    'available',
+    'in_stock'
+]
 
-# Get counts of each product_type
-product_counts = sold_items['product_type'].value_counts()
+# 1. Null counts + percentage
+null_summary = pd.DataFrame({
+    "Null_Count": df[keep_cols].isnull().sum(),
+    "Null_Percent": (df[keep_cols].isnull().sum() / len(df) * 100).round(2)
+}).sort_values(by="Null_Count", ascending=False)
 
-# Save to TXT file
-txt_path = r"C:\Users\user\PycharmProjects\Fashion-Resale-Insights-Prediction\data\raw\product_keywords_not_sold.txt"
-with open(txt_path, 'w', encoding='utf-8') as f:
-    for product, count in product_counts.items():
-        f.write(f"{product}: {count}\n")
+print("\n--- Missing Values Summary ---")
+print(null_summary)
 
-print(f"File saved to {txt_path}")
+# 2. Show unique values + counts for categorical columns
+categorical_cols = [
+    'product_gender_target',
+    'product_category',
+    'product_season',
+    'product_condition',
+    'brand_name',
+    'product_material',
+    'product_color',
+    'seller_country'
+]
+
+for col in categorical_cols:
+    if col in df.columns:
+        print(f"\n--- {col} ---")
+        print("Unique values:", df[col].dropna().unique()[:10], "...")  # show first 10
+        print("Unique count:", df[col].nunique())
+        print("Value counts (top 10):")
+        print(df[col].value_counts(dropna=False).head(10))
 
 
-# Check unique values for product_gender_target
-if 'product_gender_target' in df.columns:
-    print("\n--- product_gender_target ---")
-    print("Unique values:", df['product_gender_target'].unique())
-    print("Value counts:")
-    print(df['product_gender_target'].value_counts(dropna=False))
-
-# Check unique values for product_category
-if 'product_category' in df.columns:
-    print("\n--- product_category ---")
-    print("Unique values:", df['product_category'].unique())
-    print("Value counts:")
-    print(df['product_category'].value_counts(dropna=False))
 
 
+# Brand frequency counts
+brand_counts = df['product_material'].value_counts()
+
+# Count how many brands have less than 50 entries
+brands_under_50 = (brand_counts < 1000).sum()
+
+# Total number of brands
+total_brands = df['product_material'].nunique()
+
+# Share of small brands
+percentage = (brands_under_50 / total_brands) * 100
+
+print(f"Brands with <50 entries: {brands_under_50} out of {total_brands} ({percentage:.2f}%)")

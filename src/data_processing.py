@@ -17,14 +17,14 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     - Removes reserved and should be gone columns. (no valuable data can be estracted)
     - Removes rows with missing essential data (brand)"""
 
-    df = df.drop_duplicates()
-    df = df.drop(columns=['product_id', 'product_name', 'product_description', 'product_keywords'
+
+    df = df.drop(columns=['product_id', 'product_name', 'product_description', 'product_keywords',
                           'product_like_count', 'reserved', 'should_be_gone',  'brand_id', 'brand_url',
                           'seller_badge', 'has_cross_border_fees', 'buyers_fees', 'warehouse_name',
-                          'seller_id', 'seller_username', 'usually_ships_within', 'seller_products_sold',
-                          'seller_num_products_listed', 'seller_community_rank', 'seller_num_followers',
-                          'seller_pass_rate',])
-    df = df.dropna(subset=['brand_name'])
+                          'seller_id', 'seller_username', 'usually_ships_within',
+                          'seller_community_rank', 'seller_num_followers', 'seller_pass_rate',])
+    df = df.drop_duplicates()
+    df = df.dropna(subset=['brand_name',  'product_material', 'product_season', 'product_color'])
 
     """"Dropping any rows that has less than 100 entries in product_type category"""
     product_counts = df['product_type'].value_counts()
@@ -78,9 +78,27 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
         'Wallet': 'Other', 'Cufflinks': 'Other', 'Home textile': 'Other'
     }
 
+
     df['category_group'] = df['product_type'].map(group_map).fillna('Other')
-    """"Fill product category NA values with "Other". Its most of the time Me or Women clothing."""
+    """"Fill product category NA values with "Other". Its most of the time Men or Women clothing."""
     df['product_category'] = df['product_category'].fillna('Other')
+
+    '''Large amount of brands occure very little time
+    Creating new brand entry Others for such cases'''
+    # 1. Count frequency of each brand
+    brand_counts = df['brand_name'].value_counts()
+    # 2. Define threshold for rare brands
+    threshold = 50
+    # 3. Get all brands that appear less than threshold times
+    rare_brands = brand_counts[brand_counts < threshold].index
+    # 4. Replace rare brands with 'Other'
+    df['brand_name'] = df['brand_name'].replace(rare_brands, 'Other')
+
+    '''70 categories. With less than 1000 = 38 categories'''
+    material_counts = df['product_material'].value_counts()
+    threshold = 1000
+    rare_materials = material_counts[material_counts < threshold].index
+    df['product_material'] = df['product_material'].replace(rare_materials, 'Other')
 
     return df
 
