@@ -71,6 +71,13 @@ Seller_num_followers: No usefull information can be extracted from this.
 Seller_pass_rate: No usefull information can be extracted from this.
 
 
+--- Clean data set. No need for filling empty values, very little amount of NUll entries ---
+product_category             1183          0.13
+product_material                4          0.00
+product_season                  2          0.00
+product_color                   1          0.00
+
+
 ------------------------------------------------------------------------------------
 Inside PostgreSQL:
 Once items are in the server created new table to have only items that were sold.

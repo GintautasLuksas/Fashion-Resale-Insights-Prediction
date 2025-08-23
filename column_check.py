@@ -70,3 +70,6 @@ total_brands = df['product_material'].nunique()
 percentage = (brands_under_50 / total_brands) * 100
 
 print(f"Brands with <50 entries: {brands_under_50} out of {total_brands} ({percentage:.2f}%)")
+
+
+df['price_usd'].isnull().sum()
