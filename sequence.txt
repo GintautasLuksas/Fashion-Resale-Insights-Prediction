@@ -8,20 +8,28 @@ Main goals:
 Task 1: PostgreSQL – Clean & Structure the Dataset
 Goal inside Pycharm: Make the dataset clean, have only necessary column and ready for queries.
 Goal inside PgAdmin: From given data we will figure out sales performace, seller performence, product trends inside sql.
+
 1. Sales performance
-    -
-    -
-    -
+    - Total sales of the set
+    - Total items sold in the set
+    - Avg price
+    - How many items sold in precentage from total items listed
+    - Revenue by category
+    - Revenue by season
 2. Seller performance
-    -
-    -
-    -
+    - Total per seller
+    - Total items sold per seller
+    - Avg earing per sold item
+    - Sold products per listed (conversion rate)
 3. Product trends
-    -
-    -
-    -
-    -
-    
+    - Best selling categories
+    - Top brands
+    - Color Trend
+    - Material Trend
+    - Gender performance
+    - Dependancy on condition
+    - Season performance
+
 
 
 
@@ -56,6 +64,9 @@ In_stock: - if not in stock remove.In dataset non missing
 Brand_name: essential category. Unique count 8884. Brands with less than 50 entries 7480.
 Product_material. 70 categories. With less than 1000 38, creating category others
 Product_color: 30 unique colours
+
+
+Sales performance
 
 <<Seller characteristics>>
 Price_usd

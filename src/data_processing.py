@@ -104,6 +104,12 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     rare_materials = material_counts[material_counts < threshold].index
     df['product_material'] = df['product_material'].replace(rare_materials, 'Other')
 
+    '''Converting Bool cols, not to get sting values'''
+    bool_cols = ['sold', 'available', 'in_stock']
+    for col in bool_cols:
+        if col in df.columns:
+            df[col] = df[col].astype(bool)
+
     return df
 
 

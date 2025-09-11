@@ -18,33 +18,33 @@ def main():
     try:
         filepath = r'C:\Users\user\PycharmProjects\Fashion-Resale-Insights-Prediction\data\raw\vestiaire.csv'
 
-        print("🔄 Loading data...")
+        print("Loading data")
         df_raw = load_raw_data(filepath)
         print(f"Raw data rows: {df_raw.shape[0]}")
 
-        print("🧼 Cleaning data...")
+        print("Data cleaning in progress")
         df_cleaned = clean_data(df_raw)
         print(f"Rows after cleaning: {df_cleaned.shape[0]} (Dropped {df_raw.shape[0] - df_cleaned.shape[0]} rows)")
 
 
-        print("📦 Selecting final columns...")
+        print("📦Selecting final columns for DB")
         df_final = select_final_columns(df_cleaned)
         print(f"Final dataset shape: {df_final.shape}")
 
-        print("📝 Sample rows:")
+        print("Sample rows:")
         print(df_final.head())
 
-        # Optional: Save processed data to CSV for backup/debug
+        '''Processed csv saved for debugging purposes'''
         processed_csv_path = r'C:\Users\user\PycharmProjects\Fashion-Resale-Insights-Prediction\data\processed\vestiaire_processed.csv'
         df_final.to_csv(processed_csv_path, index=False)
         print(f"✅ Processed data saved to CSV: {processed_csv_path}")
 
-        print("🚀 Inserting data into PostgreSQL...")
+        print("Inserting data to PostgreSQL")
         insert_dataframe_to_postgres(df_final, table_name="fashion_resale")
-        print("✅ Data inserted successfully!")
+        print("Data inserted")
 
     except Exception as e:
-        print(f"❌ Error during processing: {e}")
+        print(f"Error in the process: {e}")
 
 if __name__ == "__main__":
     main()
