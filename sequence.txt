@@ -1,22 +1,38 @@
 1.Created venv added interpreter / gitignore / license / readme.md
 2.Created structure and added raw data.
 3.Creating file connect.py to establish connection with DB.
-4.Adding data_processing.py to clean the columns (had to add exceptions for "sold" category as True boolens were filtered out.
+4.Adding data_processing.py to clean the columns
 5.Set main to export csv data to postgreSQL.
 
 Main goals:
 Task 1: PostgreSQL – Clean & Structure the Dataset
-Goal: Make the dataset clean, normalized (if needed), and ready for queries.
-Done partly
+Goal inside Pycharm: Make the dataset clean, have only necessary column and ready for queries.
+Goal inside PgAdmin: From given data we will figure out sales performace, seller performence, product trends inside sql.
+1. Sales performance
+    -
+    -
+    -
+2. Seller performance
+    -
+    -
+    -
+3. Product trends
+    -
+    -
+    -
+    -
+    
 
-Task 2: Machine Learning – Feature Engineering & Modeling Prep
+
+
+Task 2: Power BI – Analytics Dashboard Prep
+Goal: Visualise findings. Add additional insights
+Each step has to have its Why it is important and must be understood how it is done.
+
+Task 3: Machine Learning – Feature Engineering & Modeling Prep
 Goal: Build a dataset to predict price, sales success, or product desirability.
-Will need further analysis
 
-Task 3: Power BI – Analytics Dashboard Prep
-Goal: Track sales performance, seller performance, product trends.
-Last step
-Each step has to have its Why it is important and must be understood how it is done. 
+
 
 ------------------------------------------------------------------------------------
 
