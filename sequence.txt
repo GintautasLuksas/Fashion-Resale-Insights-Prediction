@@ -107,6 +107,37 @@ product_color                   1          0.00
 
 ------------------------------------------------------------------------------------
 Inside PostgreSQL:
+
+Total Sales:
+SELECT SUM(Price_usd)
+FROM fashion_resale
+WHERE Sold = TRUE
+2599660
+
+Total items Sold:
+SELECT COUNT(Sold)
+FROM fashion_resale
+WHERE Sold = TRUE
+11941
+
+ Avg price
+ SELECT
+COUNT(Sold) as item_amount,
+SUM(Price_usd) as total_sold,
+    SUM(Price_usd) / COUNT(Sold) AS avg_price_per_item
+FROM fashion_resale
+331.54
+
+    - How many items sold in precentage from total items listed
+SELECT
+	SUM(CASE WHEN Sold = True THEN 1 ELSE 0 END) * 100.0 / COUNT(*) as Sold_precentage
+FROM fashion_resale;
+1.53
+    - Revenue by category
+    - Revenue by season
+
+
+
 Once items are in the server created new table to have only items that were sold.
 CREATE TABLE fashion_resale_sold AS
 SELECT *

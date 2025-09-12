@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 
 
 """Data processing functions for the Fashion Resale project.
