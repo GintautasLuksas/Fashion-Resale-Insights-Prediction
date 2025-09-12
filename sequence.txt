@@ -113,9 +113,6 @@ SELECT *
 FROM fashion_resale
 WHERE sold = TRUE;
 
-ALTER TABLE fashion_resale_sold
-ADD PRIMARY KEY (product_id);
-
 
 Basic insights:
 Sell-through rate
