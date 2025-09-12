@@ -129,10 +129,11 @@ FROM fashion_resale
 331.54
 
     - How many items sold in precentage from total items listed
+ <<<SQL does not count Bool values>>>
 SELECT
 	SUM(CASE WHEN Sold = True THEN 1 ELSE 0 END) * 100.0 / COUNT(*) as Sold_precentage
 FROM fashion_resale;
-1.53
+1.53%
     - Revenue by category
     - Revenue by season
 
