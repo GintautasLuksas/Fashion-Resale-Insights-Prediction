@@ -136,6 +136,7 @@ FROM fashion_resale;
 1.53%
     - Revenue by category
     Addition
+    
     - Revenue by season
     Addition
 
