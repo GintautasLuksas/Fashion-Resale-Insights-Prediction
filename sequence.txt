@@ -134,11 +134,27 @@ SELECT
 	SUM(CASE WHEN Sold = True THEN 1 ELSE 0 END) * 100.0 / COUNT(*) as Sold_precentage
 FROM fashion_resale;
 1.53%
+
     - Revenue by category
-    Addition
+
+    SELECT Product_category,
+	ROUND(SUM(Price_usd)) AS category_revenue
+FROM fashion_resale
+WHERE Sold = True
+GROUP by Product_category
+
+
+"product_category"	"category_revenue"
+"Men Accessories"	176851
+"Men Clothing"	509027
+"Men Shoes"	334374
+"Other"	964
+"Women Accessories"	99562
+"Women Clothing"	711402
+"Women Shoes"	767480
 
     - Revenue by season
-    Addition
+
 
 
 
