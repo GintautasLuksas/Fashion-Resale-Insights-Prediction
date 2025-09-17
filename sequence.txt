@@ -112,12 +112,14 @@ Total Sales:
 SELECT SUM(Price_usd)
 FROM fashion_resale
 WHERE Sold = TRUE
+
 2599660
 
 Total items Sold:
 SELECT COUNT(Sold)
 FROM fashion_resale
 WHERE Sold = TRUE
+
 11941
 
  Avg price
@@ -126,6 +128,7 @@ COUNT(Sold) as item_amount,
 SUM(Price_usd) as total_sold,
     SUM(Price_usd) / COUNT(Sold) AS avg_price_per_item
 FROM fashion_resale
+
 331.54
 
     - How many items sold in precentage from total items listed
@@ -133,6 +136,7 @@ FROM fashion_resale
 SELECT
 	SUM(CASE WHEN Sold = True THEN 1 ELSE 0 END) * 100.0 / COUNT(*) as Sold_precentage
 FROM fashion_resale;
+
 1.53%
 
     - Revenue by category
@@ -145,13 +149,13 @@ GROUP by Product_category
 
 
 "product_category"	"category_revenue"
-"Men Accessories"	176851
-"Men Clothing"	509027
-"Men Shoes"	334374
-"Other"	964
-"Women Accessories"	99562
-"Women Clothing"	711402
-"Women Shoes"	767480
+"Men Accessories"	      176851
+"Men Clothing"	          509027
+"Men Shoes"	              334374
+"Other"	                    964
+"Women Accessories"       99562
+"Women Clothing"	      711402
+"Women Shoes"	          767480
 
     - Revenue by season
 
@@ -163,9 +167,9 @@ GROUP by Product_season
 
 
 "product_season"	"category_revenue"
-"All seasons"	2160206
-"Autumn / Winter"	255583
-"Spring / Summer"	183872
+"All seasons"	        2160206
+"Autumn / Winter"   	255583
+"Spring / Summer"	    183872
 
 --------------------------------------------------------------------------------------
 
@@ -178,17 +182,17 @@ GROUP BY  Seller_id
 ORDER BY total_earning DESC
 LIMIT 10
 
-seller_id  total_earning
-13276748	5971806
-4153869	3621529
-6633364	2151672
-8580538	1455323
-16774308	1411365
-22899198	1399727
-19227665	1122239
-13364481	997200
-16465877	989631
-11080210	897212
+seller_id   total_earning
+13276748	   5971806
+4153869	       3621529
+6633364	       2151672
+8580538	       1455323
+16774308	   1411365
+22899198	   1399727
+19227665	   1122239
+13364481	   997200
+16465877	   989631
+11080210	   897212
 
 
     - Total items sold per seller TOP 10
@@ -203,30 +207,44 @@ GROUP BY Seller_id
 ORDER BY total_sold DESC
 LIMIT 10;
 
-"seller_id"	"total_sold"
-48600	79738
-9071862	38592
-6508493	23235
-12698884	22552
-10056903	15551
-9360167	13892
-3404357	13148
-1760381	11795
-4085582	11140
-1161554	10812
+"seller_id"	 "total_sold"
+48600	        79738
+9071862	        38592
+6508493	        23235
+12698884	    22552
+10056903	    15551
+9360167     	13892
+3404357	        13148
+1760381	        11795
+4085582	        11140
+1161554	        10812
 
-seller_id   total_sold   Total_earning
-9071862	140632425	464646
-48600	40656120	110164
-10056903	38943838	648859
-9360167	33180970	219583
-6633364	28159529	2151672
-3404357	13251195	223656
-8426156	10343083	120164
-5679155	9997842	164788
-11080210	9666530	897212
-15622454	8551590	206554
 
 
     - Avg earing per sold item
+
+SELECT
+    Seller_id,
+    ROUND(SUM(CASE WHEN sold THEN seller_earning ELSE 0 END)) AS total_earning,
+    SUM(CASE WHEN sold THEN 1 ELSE 0 END) AS total_sold,
+    ROUND((SUM(CASE WHEN sold THEN seller_earning ELSE 0 END) * 1.0 /
+        NULLIF(SUM(CASE WHEN sold THEN 1 ELSE 0 END), 0))) AS avg_earning_per_item
+FROM fashion_resale
+GROUP BY Seller_id
+HAVING SUM(CASE WHEN sold THEN 1 ELSE 0 END) > 0
+ORDER BY total_sold DESC
+LIMIT 10;
+
+
+"seller_id"	"total_earning"	"total_sold"	"avg_earning_per_item"
+9071862     	7801	        64	                122
+48600	        15131	        50	                303
+12698884	    11907	        48	                248
+15397859	    2550	        45	                57
+9360167	        3463	        41	                84
+18325692	    4246	        40	                106
+3404357	        3981	        29	                137
+18136264	    4100	        20	                205
+15622481	    3957	        18	                220
+15886961	    4992	        18	                277
     - Sold products per listed (conversion rate)
