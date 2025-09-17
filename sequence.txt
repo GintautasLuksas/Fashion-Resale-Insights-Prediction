@@ -20,7 +20,6 @@ Goal inside PgAdmin: From given data we will figure out sales performace, seller
     - Total per seller
     - Total items sold per seller
     - Avg earing per sold item
-    - Sold products per listed (conversion rate)
 3. Product trends
     - Best selling categories
     - Top brands
@@ -176,12 +175,34 @@ GROUP by Product_season
 2. Seller performance
     - Total per seller TOP 10
 SELECT Seller_id,
+ROUND(SUM(CASE WHEN sold THEN seller_earning ELSE 0 END)) AS total_earning
+From fashion_resale
+GROUP BY  Seller_id
+ORDER BY total_earning DESC
+LIMIT 10
+
+Earnings FROM DATASET
+"seller_id"	"total_earning"
+48600	        15131
+12698884	    11907
+16059674	    9063
+1161554	        8742
+9071862	        7801
+19230235	    5952
+1760381	        5382
+16886144	    5238
+15886961	    4992
+6633364	        4412
+
+
+SELECT Seller_id,
 ROUND(SUM(Seller_earning)) as total_earning
 From fashion_resale
 GROUP BY  Seller_id
 ORDER BY total_earning DESC
 LIMIT 10
 
+Earnings THROUGHOUT HISTORY
 seller_id   total_earning
 13276748	   5971806
 4153869	       3621529
@@ -195,11 +216,35 @@ seller_id   total_earning
 11080210	   897212
 
 
+
+
     - Total items sold per seller TOP 10
 
 Had to use MAX as seller_products_sold vary a bit.
 That column shows total items sold SUM is not an option.
 
+SELECT Seller_id,
+       SUM(CASE WHEN sold THEN 1 ELSE 0 END) AS total_sold
+FROM fashion_resale
+GROUP BY Seller_id
+ORDER BY total_sold DESC
+LIMIT 10;
+
+
+SOLD FROM DATASET
+"seller_id"	"total_sold"
+9071862	        64
+48600	        50
+12698884	    48
+15397859	    45
+9360167     	41
+18325692	    40
+3404357	        29
+18136264	    20
+15622481	    18
+15886961	    18
+
+SOLD THROUGHOUT HISTORY
 SELECT Seller_id,
        MAX(seller_products_sold) AS total_sold
 FROM fashion_resale
@@ -207,18 +252,17 @@ GROUP BY Seller_id
 ORDER BY total_sold DESC
 LIMIT 10;
 
-"seller_id"	 "total_sold"
+"seller_id"	"total_sold"
 48600	        79738
 9071862	        38592
 6508493	        23235
 12698884	    22552
 10056903	    15551
-9360167     	13892
+9360167	        13892
 3404357	        13148
 1760381	        11795
 4085582	        11140
 1161554	        10812
-
 
 
     - Avg earing per sold item
@@ -247,4 +291,15 @@ LIMIT 10;
 18136264	    4100	        20	                205
 15622481	    3957	        18	                220
 15886961	    4992	        18	                277
-    - Sold products per listed (conversion rate)
+
+--------------------------------------------------------------------------------------------
+
+3. Product trends
+
+    - Best selling categories
+    - Top brands
+    - Color Trend
+    - Material Trend
+    - Gender performance
+    - Dependancy on condition
+    - Season performance
