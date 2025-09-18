@@ -20,6 +20,7 @@ Goal inside PgAdmin: From given data we will figure out sales performace, seller
     - Total per seller
     - Total items sold per seller
     - Avg earing per sold item
+    - Top seller countries
 3. Product trends
     - Best selling categories
     - Top brands
@@ -291,6 +292,28 @@ LIMIT 10;
 18136264	    4100	        20	                205
 15622481	    3957	        18	                220
 15886961	    4992	        18	                277
+
+
+
+- Top seller countries
+
+SELECT Seller_country, COUNT(*) as amount
+FROM fashion_resale
+GROUP BY Seller_country
+ORDER BY amount DESC
+LIMIT 10;
+
+"seller_country"	"amount"
+"Italy"	            205419
+"France"	        112162
+"United States"	    105325
+"United Kingdom"	66583
+"Germany"	        38098
+"Spain"	            37681
+"Poland"	        26654
+"Japan"	            18075
+"Romania"	        17124
+"Greece"	        13088
 
 --------------------------------------------------------------------------------------------
 
