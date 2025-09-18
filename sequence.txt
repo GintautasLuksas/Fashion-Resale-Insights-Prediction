@@ -297,9 +297,122 @@ LIMIT 10;
 3. Product trends
 
     - Best selling categories
-    - Top brands
+   SELECT Product_category, COUNT(*) AS amount
+FROM fashion_resale
+GROUP BY Product_category
+ORDER BY amount DESC;
+
+"product_category"	"amount"
+"Men Clothing"	    176442
+"Women Clothing"	176091
+"Women Accessories"	127800
+"Women Shoes"	    116553
+"Men Shoes"	        99226
+"Men Accessories"	83867
+"Other"	            1097
+
+    - Top 15 brands
+
+"brand_name"	    "amount"
+"Other"	            63687
+"Gucci"	            34377
+"Burberry"	        19409
+"Prada"	            19053
+"Dolce & Gabbana"	18065
+"Louis Vuitton"     14292
+"Hermès"	        14209
+"Chanel"	        12920
+"Nike"	            10267
+"Fendi"	            9340
+"Dior"	            8512
+"Balenciaga"	    8359
+"Polo Ralph Lauren"	8355
+"Versace"	        8344
+"Valentino Garavani"7910
+
     - Color Trend
+SELECT Product_color, COUNT(*) AS amount
+FROM fashion_resale
+GROUP BY Product_color
+ORDER BY amount DESC
+LIMIT 15;
+
+"product_color"	"amount"
+"Black"	        208795
+"Blue"	        86463
+"Multicolour"	67998
+"Brown"	        66201
+"White"	        56487
+"Grey"	        46715
+"Beige"	        42165
+"Red"	        26545
+"Pink"	        26114
+"Green"	        26112
+"Navy"	        19522
+"Silver"	    15707
+"Gold"	        14609
+"Burgundy"	    12017
+"Yellow"	    10998
+
     - Material Trend
+SELECT Product_material, COUNT(*) AS amount
+FROM fashion_resale
+GROUP BY Product_material
+ORDER BY amount DESC
+LIMIT 15;
+
+"product_material"	"amount"
+"Leather"	        184465
+"Cotton"	        153572
+"Wool"	             65954
+"Silk"	             59756
+"Polyester"          58638
+"Plastic"	         33330
+"Suede"	             29753
+"Cloth"	             26540
+"Viscose"	         20902
+"Metal"	             19400
+"Steel"	             17753
+"Synthetic"	         16297
+"Polyamide"	         13769
+"Cashmere"	         12288
+"Patent leather"	 10987
+
     - Gender performance
+SELECT Product_gender_target, COUNT(*) AS amount
+FROM fashion_resale
+GROUP BY Product_gender_target
+ORDER BY amount DESC
+
+"product_gender_target"	"amount"
+"Women"	420755
+"Men"	360321
+
     - Dependancy on condition
+SELECT Product_condition, COUNT(*) AS amount
+FROM fashion_resale
+WHERE Sold = True
+GROUP BY Product_condition
+ORDER BY amount DESC
+
+"product_condition"	    "amount"
+"Very good condition"	   5503
+"Never worn"	           2973
+"Never worn, with tag"	   2018
+"Good condition"	       1270
+"Fair condition"	        177
+
+
     - Season performance
+
+SELECT Product_season, COUNT(*) AS amount
+FROM fashion_resale
+WHERE Sold = True
+GROUP BY Product_season
+ORDER BY amount DESC
+
+
+"product_season"	"amount"
+"All seasons"	     10043
+"Autumn / Winter"	 1089
+"Spring / Summer"	  809
