@@ -439,3 +439,28 @@ ORDER BY amount DESC
 "All seasons"	     10043
 "Autumn / Winter"	 1089
 "Spring / Summer"	  809
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Power BI
+
+
+1. Sales performance
+    - Total sales of the set
+    - Total items sold in the set
+    - Avg price
+    - How many items sold in precentage from total items listed
+    - Revenue by category
+    - Revenue by season
+2. Seller performance
+    - Total per seller
+    - Total items sold per seller
+    - Avg earing per sold item
+    - Top seller countries
+3. Product trends
+    - Best selling categories
+    - Top brands
+    - Color Trend
+    - Material Trend
+    - Gender performance
+    - Dependancy on condition
+    - Season performance
