@@ -464,3 +464,10 @@ Power BI
     - Gender performance
     - Dependancy on condition
     - Season performance
+
+
+1. Sales performance
+
+-Totals sales card added
+-Total items sold added
+-Additional count added as AVG price per item in USD
