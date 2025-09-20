@@ -445,12 +445,35 @@ Power BI
 
 
 1. Sales performance
-    - Total sales of the set
+    - Total sales of the set - Added Card
+
+
     - Total items sold in the set
+    Added Card
+    AvgPriceSold_USD =
+CALCULATE(
+    AVERAGE('vestiaire_processed'[price_usd]),
+    'vestiaire_processed'[sold] = TRUE()
+)
+
     - Avg price
+    Added Card
+
     - How many items sold in precentage from total items listed
+    Added Card
+    Percentage Sold =
+DIVIDE(
+    COUNTROWS(FILTER('vestiaire_processed', 'vestiaire_processed'[sold] = TRUE())),
+    COUNTROWS('vestiaire_processed')
+)
+
     - Revenue by category
+    Column Chart
+
     - Revenue by season
+    Column chart
+
+
 2. Seller performance
     - Total per seller
     - Total items sold per seller
