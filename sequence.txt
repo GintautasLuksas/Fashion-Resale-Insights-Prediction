@@ -476,8 +476,39 @@ DIVIDE(
 
 2. Seller performance
     - Total per seller
-    - Total items sold per seller
-    - Avg earing per sold item
+    Column Chart Top 10 Filter for seller_id
+
+    Total Earning =
+CALCULATE(
+    SUM(vestiaire_processed[seller_earning]),
+    FILTER(vestiaire_processed, vestiaire_processed[sold] = TRUE())
+)
+
+
+    - Total items sold per seller Top 10 Filter for seller_id
+    Column Chart
+
+    Sold Count =
+CALCULATE (
+    COUNTROWS ( vestiaire_processed ),
+    FILTER ( vestiaire_processed, vestiaire_processed[sold] = TRUE() )
+)
+
+    - Avg earing per sold item Top 10 Filter for seller_id
+
+Avg Earning per Item =
+DIVIDE(
+    CALCULATE(
+        SUM(vestiaire_processed[seller_earning]),
+        FILTER(vestiaire_processed, vestiaire_processed[sold] = TRUE())
+    ),
+    CALCULATE(
+        COUNTROWS(vestiaire_processed),
+        FILTER(vestiaire_processed, vestiaire_processed[sold] = TRUE())
+    )
+)
+
+
     - Top seller countries
 3. Product trends
     - Best selling categories
