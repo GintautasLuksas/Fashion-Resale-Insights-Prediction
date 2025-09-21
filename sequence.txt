@@ -510,6 +510,10 @@ DIVIDE(
 
 
     - Top seller countries
+Seller_country Filter TOP 10
+Sold Count
+
+
 3. Product trends
     - Best selling categories
     - Top brands
