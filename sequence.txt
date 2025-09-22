@@ -515,6 +515,9 @@ Sold Count
 
 
 3. Product trends
+Column charts created
+Gender Slicer
+Differences between Sold Count and Total Earning count across categories
     - Best selling categories
     - Top brands
     - Color Trend
@@ -524,8 +527,4 @@ Sold Count
     - Season performance
 
 
-1. Sales performance
 
--Totals sales card added
--Total items sold added
--Additional count added as AVG price per item in USD
