@@ -526,4 +526,4 @@ Differences between Sold Count and Total Earning count across categories
     - Dependancy on condition
     - Season performance
 
-Implemented visuals, imrpoving it.
+Improving visuals adding slicers.
