@@ -528,6 +528,7 @@ Differences between Sold Count and Total Earning count across categories
 
 
 General slicers for all of countings applied
+Additional spacing added 
 
 
 Some more touches, before moving to ML 
