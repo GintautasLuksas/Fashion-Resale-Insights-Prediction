@@ -532,3 +532,57 @@ Video will be prepeared to present the insights.
 
 
 Some more touches, before moving to ML 
+-------------------------------------------------------------------------------------
+Task 3: Machine Learning – Feature Engineering & Modeling Prep
+Goal: Build a dataset to predict price, sales success, or product desirability.
+
+-Sale success. Using random forest classifier.
+
+
+Rearraging columns to keep for ML.
+
+
+Product_type: filtered out product types that had less than 100 entries //
+Prodect_category: New product types for narrow categories from product_type
+Product_gender_target: one hot encoding
+Product_category:   6 in category, label encoding
+Product_season: One hot encoding
+Product_condition: 5 categories label encoding
+Sold: one hot
+Available: - if not available remove line. In dataset non missing
+In_stock: - if not in stock remove.In dataset non missing
+Brand_name: essential category. Unique count 8884. Brands with less than 50 entries 7480. Keep top 50 label encoding
+Product_material. 70 categories. With less than 1000 38, creating category others. Label encoding
+Product_color: 30 unique colours
+
+
+Sales performance
+
+<<Seller characteristics>>
+Seller_id
+Price_usd
+Seller_price
+Seller_earning
+Seller_country
+seller_products_sold
+seller_num_products_listed
+
+SQL DROP:
+Product_id: No usefull information can be extracted from this.
+Product_name: Not for SQL base.
+Product_description: Not for SQL base.
+Product_keywords: Not for SQL base.
+Product_like_count: No usefull information can be extracted from this.
+Reserved: No usefull information can be extracted from this.
+Should_be_gone: No usefull information can be extracted from this.
+brand_id: No usefull information can be extracted from this.
+Brand_url: No usefull information can be extracted from this.
+Seller_badge: No usefull information can be extracted from this.
+Has_cross_border_fees: No usefull information can be extracted from this.
+buyers_fees: No usefull information can be extracted from this.
+Warehouse_name: No usefull information can be extracted from this.
+Seller_username: No usefull information can be extracted from this.
+Usually_ships_within: No usefull information can be extracted from this.
+seller_community_rank: No usefull information can be extracted from this.
+Seller_num_followers: No usefull information can be extracted from this.
+Seller_pass_rate: No usefull information can be extracted from this.
