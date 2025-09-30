@@ -22,7 +22,8 @@ keep_cols = [
     'seller_earning',
     'seller_country',
     'available',
-    'in_stock'
+    'in_stock',
+    'reserved'
 ]
 
 # 1. Null counts + percentage
@@ -43,7 +44,19 @@ categorical_cols = [
     'brand_name',
     'product_material',
     'product_color',
-    'seller_country'
+    'seller_country',
+    'reserved',
+    'available',
+    'in_stock',
+    'should_be_gone',
+    'seller_badge',
+    'has_cross_border_fees',
+    'buyers_fees',
+    'warehouse_name',
+    'usually_ships_within',
+    'seller_num_followers',
+'seller_pass_rate',
+'product_like_count'
 ]
 
 for col in categorical_cols:

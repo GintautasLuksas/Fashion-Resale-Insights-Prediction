@@ -549,8 +549,8 @@ Product_category:   6 in category, label encoding
 Product_season: One hot encoding
 Product_condition: 5 categories label encoding
 Sold: one hot
-Available: - if not available remove line. In dataset non missing
-In_stock: - if not in stock remove.In dataset non missing
+Available: - if not available remove line. In dataset non missing.
+
 Brand_name: essential category. Unique count 8884. Brands with less than 50 entries 7480. Keep top 50 label encoding
 Product_material. 70 categories. With less than 1000 38, creating category others. Label encoding
 Product_color: 30 unique colours. Label encoding
@@ -561,14 +561,32 @@ Sales performance
 <<Seller characteristics>>
 
 Price_usd
-Seller_price
-Seller_earning
-Seller_country
-seller_products_sold
-seller_num_products_listed
+Seller_price numeric
+Seller_earning numeric
+Seller_country categorical
+seller_products_sold numeric
+seller_num_products_listed numeric
+Seller_badge: Common     Expert    Trusted , One hot
+buyers_fees Replace NaN with 0 or median of the column. Numeric.
 
+Warehouse_name: Tourcoing    628442
+Brooklyn     128105
+Crawley       76495
+Hong Kong     67320 filter rows with less than 200 entires keep TOP 4
 
-Product_like_count vary very differently numbers
+usually_ships_within
+1-2 days            546943
+3-5 days            180755
+NaN                 154791
+6-7 days             16816
+More than 7 days      1209
+Fill NAN with 1-2 days
+One hot encode
+
+seller_community_rank keeping numeric
+Seller_pass_rate bins 0-50 Low, 51-90 Medium, 91-100 High
+Product_like_count Keep it raw, optional set thresholds
+Seller_num_followers keep numeric values
 
 
 
@@ -585,19 +603,14 @@ Product_keywords around 3-5 words about item
 DROP:
 Product_id: No usefull information can be extracted from this.
 Seller_id drop
-Reserved. Just false in most cases
-
-
-
-Should_be_gone: No usefull information can be extracted from this.
+Reserved. Always false.
+In_stock: - if not in stock remove.In dataset: False 894907, True  5607. If filtered by it, dataset would terribly shrink.
+Should_be_gone:True 69 values irrelevant stat.
 brand_id: No usefull information can be extracted from this.
 Brand_url: No usefull information can be extracted from this.
-Seller_badge: No usefull information can be extracted from this.
-Has_cross_border_fees: No usefull information can be extracted from this.
-buyers_fees: No usefull information can be extracted from this.
-Warehouse_name: No usefull information can be extracted from this.
+Has_cross_border_fees: True or Nan, nothing usefull can be extracted
 Seller_username: No usefull information can be extracted from this.
-Usually_ships_within: No usefull information can be extracted from this.
-seller_community_rank: No usefull information can be extracted from this.
-Seller_num_followers: No usefull information can be extracted from this.
-Seller_pass_rate: No usefull information can be extracted from this.
+
+
+
+
