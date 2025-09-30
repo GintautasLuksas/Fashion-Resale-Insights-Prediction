@@ -553,13 +553,13 @@ Available: - if not available remove line. In dataset non missing
 In_stock: - if not in stock remove.In dataset non missing
 Brand_name: essential category. Unique count 8884. Brands with less than 50 entries 7480. Keep top 50 label encoding
 Product_material. 70 categories. With less than 1000 38, creating category others. Label encoding
-Product_color: 30 unique colours
+Product_color: 30 unique colours. Label encoding
 
 
 Sales performance
 
 <<Seller characteristics>>
-Seller_id
+
 Price_usd
 Seller_price
 Seller_earning
@@ -567,13 +567,28 @@ Seller_country
 seller_products_sold
 seller_num_products_listed
 
-SQL DROP:
+
+Product_like_count vary very differently numbers
+
+
+
+
+Text values for ML:
+Product_name around 1 - 20 words with some numbers sometimes
+Product_description: 1-2 sentance often include what is it made from, condition, size
+Product_keywords around 3-5 words about item
+
+
+
+
+
+DROP:
 Product_id: No usefull information can be extracted from this.
-Product_name: Not for SQL base.
-Product_description: Not for SQL base.
-Product_keywords: Not for SQL base.
-Product_like_count: No usefull information can be extracted from this.
-Reserved: No usefull information can be extracted from this.
+Seller_id drop
+Reserved. Just false in most cases
+
+
+
 Should_be_gone: No usefull information can be extracted from this.
 brand_id: No usefull information can be extracted from this.
 Brand_url: No usefull information can be extracted from this.
