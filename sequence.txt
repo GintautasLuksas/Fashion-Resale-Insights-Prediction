@@ -542,34 +542,34 @@ Goal: Build a dataset to predict price, sales success, or product desirability.
 Rearraging columns to keep for ML.
 
 
-Product_type: filtered out product types that had less than 100 entries //
-Prodect_category: New product types for narrow categories from product_type
-Product_gender_target: one hot encoding
-Product_category:   6 in category, label encoding
-Product_season: One hot encoding
-Product_condition: 5 categories label encoding
-Sold: one hot
-Available: - if not available remove line. In dataset non missing.
+product_type: filtered out product types that had less than 100 entries //
+prodect_category: New product types for narrow categories from product_type
 
-Brand_name: essential category. Unique count 8884. Brands with less than 50 entries 7480. Keep top 50 label encoding
-Product_material. 70 categories. With less than 1000 38, creating category others. Label encoding
-Product_color: 30 unique colours. Label encoding
+Text values for ML:
+product_name around 1 - 20 words with some numbers sometimes
+product_description: 1-2 sentance often include what is it made from, condition, size
+product_keywords around 3-5 words about item
 
+product_gender_target: one hot encoding
+product_category:   6 in category, label encoding
+product_season: One hot encoding
+product_condition: 5 categories label encoding
+product_like_count Keep it raw, optional set thresholds
+sold: one hot
+available: - if not available remove line. In dataset non missing.
+brand_name: essential category. Unique count 8884. Brands with less than 50 entries 7480. Keep top 50 label encoding
+product_material. 70 categories. With less than 1000 38, creating category others. Label encoding
+product_color: 30 unique colours. Label encoding
 
-Sales performance
-
-<<Seller characteristics>>
-
-Price_usd
-Seller_price numeric
-Seller_earning numeric
-Seller_country categorical
-seller_products_sold numeric
-seller_num_products_listed numeric
-Seller_badge: Common     Expert    Trusted , One hot
+sales performance
+price_usd
+seller_price numeric
+seller_earning numeric
+seller_badge: Common     Expert    Trusted , One hot
 buyers_fees Replace NaN with 0 or median of the column. Numeric.
 
-Warehouse_name: Tourcoing    628442
+warehouse_name:
+Tourcoing    628442
 Brooklyn     128105
 Crawley       76495
 Hong Kong     67320 filter rows with less than 200 entires keep TOP 4
@@ -583,33 +583,25 @@ More than 7 days      1209
 Fill NAN with 1-2 days
 One hot encode
 
+seller_country categorical
+seller_products_sold numeric
+seller_num_products_listed numeric
 seller_community_rank keeping numeric
-Seller_pass_rate bins 0-50 Low, 51-90 Medium, 91-100 High
-Product_like_count Keep it raw, optional set thresholds
-Seller_num_followers keep numeric values
-
-
-
-
-Text values for ML:
-Product_name around 1 - 20 words with some numbers sometimes
-Product_description: 1-2 sentance often include what is it made from, condition, size
-Product_keywords around 3-5 words about item
-
-
+seller_num_followers keep numeric values
+seller_pass_rate bins 0-50 Low, 51-90 Medium, 91-100 High
 
 
 
 DROP:
-Product_id: No usefull information can be extracted from this.
-Seller_id drop
-Reserved. Always false.
-In_stock: - if not in stock remove.In dataset: False 894907, True  5607. If filtered by it, dataset would terribly shrink.
-Should_be_gone:True 69 values irrelevant stat.
+reserved. Always false.
+in_stock: - if not in stock remove.In dataset: False 894907, True  5607. If filtered by it, dataset would terribly shrink.
+should_be_gone:True 69 values irrelevant stat.
 brand_id: No usefull information can be extracted from this.
-Brand_url: No usefull information can be extracted from this.
+product_id: No usefull information can be extracted from this.
+brand_url: No usefull information can be extracted from this.
 Has_cross_border_fees: True or Nan, nothing usefull can be extracted
-Seller_username: No usefull information can be extracted from this.
+seller_id drop
+seller_username: No usefull information can be extracted from this.
 
 
 
