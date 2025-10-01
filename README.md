@@ -54,24 +54,23 @@ Includes encoding, filtering, and theoretical feature engineering for predicting
 
 ## Project Structure
 
-
-
 ├── data/                         # Data storage
 │   ├── raw/                      # Original Kaggle dataset
 │   └── processed/                # Cleaned datasets for SQL/BI
 ├── Power BI Visuals/              # Power BI dashboard files
-├──sql/                           
-│   ├──analysis_queries.sql        #SQL queries
+├── sql/                           
+│   └── analysis_queries.sql       # SQL queries
 ├── src/                   
 │   ├── db/
 │   │   └── insert.py              # Export processed data to PostgreSQL
 │   ├── data_processing.py         # Cleaning and preprocessing
 │   └── main.py                    # Pipeline orchestrator
 ├── .env                           # Environment variables (login info)
-├── .example                        # Example environment file
+├── .example                       # Example environment file
 ├── requirements.txt               # Python dependencies
 ├── README.md                      # Project overview (this file)
 └── LICENSE                        # Project license
+
 
 * Data file can be downloaded from Kaggle:*  
 [https://www.kaggle.com/datasets/justinpakzad/vestiaire-fashion-dataset/data](https://www.kaggle.com/datasets/justinpakzad/vestiaire-fashion-dataset/data)
