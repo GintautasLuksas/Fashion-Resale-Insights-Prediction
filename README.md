@@ -178,3 +178,15 @@ Optional: Open Power BI and connect to the PostgreSQL database for dashboard cre
 - Keep `.env` secure; do not commit credentials.  
 - Raw SQL queries for detailed insights are available in `sql/analysis_queries.sql`.  
 - The processed dataset can be reused for ML experiments or additional dashboards.  
+
+## Project Workflow
+
+The detailed project workflow, including all steps from environment setup to ML preparation, is documented in [`sequence.txt`](sequence.txt). Key steps include:
+
+1. Create virtual environment, `.gitignore`, LICENSE, README.md  
+2. Structure project and add raw data  
+3. Establish DB connection (`connect.py`)  
+4. Clean dataset (`data_processing.py`)  
+5. Export cleaned dataset to PostgreSQL (`main.py`)  
+6. Analyze sales, seller, and product trends in SQL and Power BI  
+7. Prepare dataset for future ML modeling
