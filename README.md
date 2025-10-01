@@ -1,9 +1,9 @@
 # Fashion Resale Insights & Prediction
 
-A full-stack data project exploring **fashion resale trends**, **seller performance**, and **product insights** using **PostgreSQL**, **Power BI**, and a future extension into **Machine Learning**.
+Data project exploring **fashion resale trends**, **seller performance**, and **product insights** using **PostgreSQL**, **Power BI**, and a future extension into **Machine Learning**.
 
 This repository covers the complete workflow:
-1. Data ingestion & cleaning in Python.
+1. Data loading & cleaning in Python.
 2. Database structuring and querying in PostgreSQL.
 3. Interactive analytics with Power BI.
 4. Preparation for future feature engineering and ML modeling.
@@ -44,11 +44,9 @@ Use SQL to explore:
 
 ### Task 2: Power BI – Analytics Dashboard Prep
 **Goal:** Visualize findings and derive additional insights.  
-Each visual should clearly explain its **purpose** and how it was created.
 
 ### Task 3: Machine Learning – Feature Engineering & Modeling Prep
 **Goal:** Prepare the dataset for future ML modeling.  
-Includes encoding, filtering, and theoretical feature engineering for predicting price, sales success, or product desirability.
 
 ---
 
@@ -70,10 +68,10 @@ src/
 ├── data_processing.py         # Cleaning and preprocessing
 └── main.py                    # Pipeline orchestrator
 
-.env                           # Environment variables (login info)
+.env                           # login info
 .example                       # Example environment file
 requirements.txt               # Python dependencies
-README.md                      # Project overview (this file)
+README.md                      # Project overview 
 LICENSE                        # Project license
 ```
 
@@ -170,12 +168,11 @@ Optional: Open Power BI and connect to the PostgreSQL database for dashboard cre
 
 **Modeling - for future**
 - Sale success prediction using Random Forest Classifier (prototype)  
-- Dataset ready for experimentation and further modeling  
+- Also dataset ready for experimentation and further modeling  
 
 ---
 
 ## Notes
-- Keep `.env` secure; do not commit credentials.  
 - Raw SQL queries for detailed insights are available in `sql/analysis_queries.sql`.  
 - The processed dataset can be reused for ML experiments or additional dashboards.  
 
