@@ -37,7 +37,7 @@ def main():
         '''Processed csv saved for debugging purposes'''
         processed_csv_path = r'C:\Users\user\PycharmProjects\Fashion-Resale-Insights-Prediction\data\processed\vestiaire_processed.csv'
         df_final.to_csv(processed_csv_path, index=False)
-        print(f"✅ Processed data saved to CSV: {processed_csv_path}")
+        print(f"Processed data saved to CSV: {processed_csv_path}")
 
         print("Inserting data to PostgreSQL")
         insert_dataframe_to_postgres(df_final, table_name="fashion_resale")

@@ -20,7 +20,7 @@ def insert_dataframe_to_postgres(df: pd.DataFrame, table_name: str):
         db_url = f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{dbname}"
         engine = create_engine(db_url)
         df.to_sql(table_name, engine, if_exists='replace', index=False)
-        print(f"✅ Inserted {len(df)} rows into '{table_name}'")
+        print(f"Inserted {len(df)} rows into '{table_name}'")
     except Exception as e:
         print(f"Error inserting dataframe to postgres: {e}")
         raise
