@@ -96,6 +96,7 @@ pdm.toml
 .venv/
 env/
 venv/
+venv_clean/
 ENV/
 env.bak/
 venv.bak/
