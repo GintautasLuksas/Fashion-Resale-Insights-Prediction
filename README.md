@@ -2,6 +2,10 @@
 
 Data project exploring **fashion resale trends**, **seller performance**, and **product insights** using **PostgreSQL**, **Power BI**, and a future extension into **Machine Learning**.
 
+Thing to note:
+Right now the project more about fashion-resale insights than prediction. 
+Prediction part left for ML part in the future.
+
 This repository covers the complete workflow:
 1. Data loading & cleaning in Python.
 2. Database structuring and querying in PostgreSQL.
