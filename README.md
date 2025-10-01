@@ -98,10 +98,11 @@ DB_NAME=fashion_resale
 ```
 ## How to Run
 
-Process and clean the dataset:
 
+
+```Process and clean the dataset:
 python src/main.py
-
+```
 Insert processed data into PostgreSQL
 
 Automatically handled in main.py using insert_dataframe_to_postgres().
