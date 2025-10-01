@@ -87,14 +87,15 @@ LICENSE                        # Project license
 pip install -r requirements.txt
 
 
-Set database credentials in `.env`:
+3. Set database credentials in a `.env` file:
 
+```env
 DB_USER=your_user
 DB_PASSWORD=your_password
 DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=fashion_resale
-
+```
 ## How to Run
 
 Process and clean the dataset:
